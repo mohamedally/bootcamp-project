@@ -8,7 +8,6 @@ class User extends BaseModel {
 
   static get relationMappings() {
     const Post = require('./Post')
-
     return {
       posts: {
         relation: HasManyRelation,

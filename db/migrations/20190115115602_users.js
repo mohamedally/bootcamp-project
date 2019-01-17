@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       .uuid('id')
       .notNull()
       .primary()
-    table.text('username').notNull()
+    table.text('name').notNull()
     table
       .text('email')
       .notNull()

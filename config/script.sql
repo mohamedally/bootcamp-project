@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS aalum;
+DROP DATABASE IF EXISTS bootcampproject;
 CREATE DATABASE bootcampproject;
-\connect aalum;
-CREATE EXTENSION POSTGIS;
+\connect bootcampproject;
