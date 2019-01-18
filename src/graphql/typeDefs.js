@@ -15,10 +15,17 @@ module.exports = gql`
 
   type Mutation {
     createUser(input: CreateUserInput!): LoginReturn!
+    loginUser(email: String!, password: String!): LoginReturn!
+    deleteUser(input: ID!): StatusMessage!
     createPost(content: String!): CreatePostReturn!
     editPost(id: ID!, newContent: String!): EditPostReturn!
-    loginUser(email: String!, password: String!): LoginReturn!
-    deleteUser(input: ID!): DeleteUserReturn!
+    deletePost(id: ID!): DeletePostReturn!
+    editUser(input: EditUserInput!): User!
+    addFriend(input: ID!): StatusMessage!
+    removeFriend(input: ID!): StatusMessage!
+    sendRequest(receiver: ID!): StatusMessage!
+    acceptRequest(sender: ID!): StatusMessage!
+    declineRequest(sender: ID!): StatusMessage!
   }
 
   type CreatePostReturn {
@@ -29,6 +36,10 @@ module.exports = gql`
   type EditPostReturn {
     post: Post
     error: Error
+  }
+
+  type DeletePostReturn {
+    message: String!
   }
 
   input CreateUserInput {
@@ -45,7 +56,20 @@ module.exports = gql`
     hobbies: String
   }
 
-  type DeleteUserReturn {
+  input EditUserInput {
+    name: String
+    email: String
+    birthday: String
+    concentration: String
+    hometown: String
+    house: String
+    gender: String
+    bio: String
+    picture: String
+    hobbies: String
+  }
+
+  type StatusMessage {
     message: String!
   }
 

@@ -30,12 +30,6 @@ const createUser = async (obj, { input }) => {
 
   registerInput.password = hash
 
-  // if (input.hobbies) {
-  //   registerInput.hobbies = input.hobbies.map(hobby => ({
-  //     hobby,
-  //   }))
-  // }
-
   const user = await User.query().insertWithRelatedAndFetch(registerInput)
 
   if (!user) {
@@ -64,6 +58,71 @@ const deleteUser = async (obj, { input }) => {
     }
   }
 }
-const resolver = { Mutation: { createUser, deleteUser } }
+
+const editUser = async (obj, args, context) => {
+  if (!context.user) {
+    return {
+      error: {
+        message: 'User not logged in',
+      },
+    }
+  }
+
+  const user = await User.query()
+    .where('id', context.user.id)
+    .then(res => res[0])
+
+  if (!user) {
+    return {
+      error: {
+        message: 'Logged in user does not exist',
+      },
+    }
+  }
+
+  const {
+    name,
+    email,
+    birthday,
+    concentration,
+    hometown,
+    house,
+    gender,
+    bio,
+    picture,
+    hobbies,
+  } = args.input
+
+  const payload = {}
+  if (name) payload.name = name
+  if (email) payload.email = email
+  if (birthday) payload.birthday = birthday
+  if (concentration) payload.concentration = concentration
+  if (hometown) payload.hometown = hometown
+  if (house) payload.house = house
+  if (gender) payload.gender = gender
+  if (bio) payload.bio = bio
+  if (picture) payload.picture = picture
+  if (hobbies) payload.hobbies = hobbies
+
+  const result = await User.query()
+    .patch(payload)
+    .where('id', user.id)
+
+  if (!result) {
+    return {
+      error: {
+        message: 'Failed to edit user',
+      },
+    }
+  }
+
+  const newUser = await User.query().findById(user.id)
+  return newUser
+}
+
+const resolver = {
+  Mutation: { createUser, deleteUser, editUser },
+}
 
 module.exports = resolver

@@ -28,21 +28,20 @@ class User extends BaseModel {
           },
           to: 'users.id',
         },
-      },
-      friend_requests: {
-        relation: ManyToManyRelation,
-        modelClass: User,
-        join: {
-          from: 'users.id',
-          through: {
-            from: 'friend_requests.sender',
-            to: 'friend_requests.receiver',
+        friend_requests: {
+          relation: ManyToManyRelation,
+          modelClass: User,
+          join: {
+            from: 'users.id',
+            through: {
+              from: 'friend_requests.sender',
+              to: 'friend_requests.receiver',
+            },
+            to: 'users.id',
           },
-          to: 'users.id',
         },
       },
     }
   }
 }
-
 module.exports = User
